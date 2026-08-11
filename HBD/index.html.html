@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สุขสันต์วันเกิดนะยัยบ๊อง🐰</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6ED;
+    --blush:#FFE3EC;
+    --coral:#FF8FA3;
+    --coral-deep:#FF6B8B;
+    --lavender:#CBB8FF;
+    --mint:#AEEBD3;
+    --gold:#FFD166;
+    --choco:#6B4A3D;
+    --choco-soft:#9A7A6D;
+    --paper:#FFFDF9;
+  }
+ 
+  /* =========================
+     ⭐ แก้ชื่อ/ข้อความตรงนี้ได้เลย ⭐
+     ค้นหา [ชื่อแฟน] และ [ชื่อคุณ] เพื่อแก้เป็นชื่อจริง
+     ========================= */
+ 
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Nunito', sans-serif;
+    background:var(--cream);
+    color:var(--choco);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Baloo 2', sans-serif;
+  }
+ 
+  ::selection{background:var(--coral); color:#fff;}
+ 
+  /* ---------- Cover ---------- */
+  #cover{
+    position:fixed; inset:0; z-index:100;
+    background:radial-gradient(circle at 30% 20%, #FFD3E0 0%, #FFE3EC 45%, #FFF6ED 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px;
+    transition:transform 0.9s cubic-bezier(.7,0,.3,1), opacity 0.9s ease;
+  }
+  #cover.opened{
+    transform:translateY(-100%);
+    opacity:0.4;
+    pointer-events:none;
+  }
+  .cover-title{
+    font-size:clamp(28px, 6vw, 42px);
+    color:var(--coral-deep);
+    font-weight:700;
+    margin-bottom:8px;
+    letter-spacing:0.5px;
+  }
+  .cover-sub{
+    color:var(--choco-soft);
+    font-weight:600;
+    margin-bottom:34px;
+    font-size:15px;
+  }
+  /* ---------- ใส่รูป Usagi ของคุณเอง ----------
+     1) เตรียมไฟล์รูป เช่น usagi.png (ที่คุณมีสิทธิ์ใช้)
+     2) วางไฟล์ไว้โฟลเดอร์เดียวกับ index.html นี้
+     3) แก้ src="usagi.png" ในแต่ละจุดด้านล่างเป็นชื่อไฟล์ของคุณ
+     ถ้ายังไม่ใส่รูป ระบบจะโชว์กรอบ 🐰 แทนให้อัตโนมัติ */
+  .bunny-fallback{
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, var(--blush), #FFD3E0);
+    border-radius:26px; border:2px dashed var(--coral);
+  }
+  .cover-bunny, .cover-bunny + .bunny-fallback{ width:150px; height:150px; margin-bottom:18px; }
+  .cover-bunny{ animation:peek-bounce 2.4s ease-in-out infinite; object-fit:contain; }
+  .cover-bunny + .bunny-fallback{ animation:peek-bounce 2.4s ease-in-out infinite; font-size:56px; }
+  @keyframes peek-bounce{
+    0%,100%{ transform:translateY(0) rotate(-2deg); }
+    50%{ transform:translateY(-14px) rotate(2deg); }
+  }
+  #open-btn{
+    font-family:'Baloo 2', sans-serif;
+    font-size:17px; font-weight:700; color:#fff;
+    background:linear-gradient(135deg, var(--coral), var(--coral-deep));
+    border:none; padding:16px 40px; border-radius:999px;
+    cursor:pointer; box-shadow:0 10px 24px -6px rgba(255,107,139,0.55);
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  #open-btn:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 14px 28px -6px rgba(255,107,139,0.65); }
+  #open-btn:active{ transform:translateY(0) scale(0.97); }
+  .cover-hearts span{
+    position:absolute; font-size:20px; opacity:0.7; animation:float-up 6s linear infinite;
+  }
+  @keyframes float-up{
+    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:0.8; }
+    100%{ transform:translateY(-100vh) rotate(30deg); opacity:0; }
+  }
+ 
+  /* ---------- Confetti canvas ---------- */
+  #confetti-canvas{ position:fixed; inset:0; pointer-events:none; z-index:90; }
+ 
+  /* ---------- Sections ---------- */
+  section{
+    position:relative;
+    padding:100px 20px;
+    max-width:720px;
+    margin:0 auto;
+    text-align:center;
+  }
+ 
+  /* Hero */
+  #hero{ padding-top:130px; }
+  .eyebrow{
+    display:inline-block; font-weight:700; font-size:13px; letter-spacing:2px;
+    color:var(--coral-deep); background:var(--blush); padding:6px 16px;
+    border-radius:999px; margin-bottom:22px;
+  }
+  .hero-title{
+    font-size:clamp(34px, 8vw, 58px);
+    font-weight:800; color:var(--coral-deep); line-height:1.15;
+    text-shadow:3px 3px 0 var(--gold);
+  }
+  .hero-title .name{ color:var(--lavender-deep, #8B6FE0); }
+  .hero-sub{
+    margin-top:20px; font-size:17px; font-weight:600; color:var(--choco-soft);
+    max-width:480px; margin-left:auto; margin-right:auto;
+  }
+  .hero-bunny-wrap{ margin:44px auto 0; width:220px; position:relative; }
+  .hero-bunny, .hero-bunny-wrap .bunny-fallback{ width:100%; height:220px; animation:hop 2s ease-in-out infinite; }
+  .hero-bunny{ object-fit:contain; }
+  .hero-bunny-wrap .bunny-fallback{ font-size:96px; border-radius:32px; }
+  .foot-bunny, .foot-bunny + .bunny-fallback{ width:70px; height:70px; margin-bottom:14px; }
+  .foot-bunny{ object-fit:contain; }
+  .foot-bunny + .bunny-fallback{ font-size:32px; border-radius:18px; }
+  @keyframes hop{
+    0%,100%{ transform:translateY(0) scaleY(1); }
+    35%{ transform:translateY(-22px) scaleY(1.03); }
+    50%{ transform:translateY(-26px) scaleY(1.05); }
+    65%{ transform:translateY(-22px) scaleY(1.03); }
+    85%{ transform:translateY(0) scaleY(0.96); }
+  }
+  .balloon-string{
+    position:absolute; top:-70px; right:18px; width:2px; height:80px;
+    background:var(--choco-soft); opacity:0.5; transform-origin:top;
+    animation:sway 3s ease-in-out infinite;
+  }
+  .balloon{
+    position:absolute; top:-140px; right:-6px; width:70px; animation:sway 3s ease-in-out infinite;
+  }
+  @keyframes sway{
+    0%,100%{ transform:rotate(-4deg); }
+    50%{ transform:rotate(4deg); }
+  }
+  .scroll-hint{
+    margin-top:56px; font-size:13px; color:var(--choco-soft); font-weight:700;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .scroll-hint .arrow{ animation:bob 1.6s ease-in-out infinite; font-size:18px; }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
+ 
+  /* Section heading shared */
+  .sec-tag{
+    font-weight:700; font-size:13px; letter-spacing:2px; color:var(--coral-deep);
+    margin-bottom:10px;
+  }
+  .sec-title{
+    font-size:clamp(24px,5vw,34px); font-weight:700; color:var(--choco); margin-bottom:38px;
+  }
+ 
+  /* Letter */
+  .letter{
+    background:var(--paper);
+    border-radius:22px;
+    padding:44px 34px;
+    text-align:left;
+    box-shadow:0 20px 40px -18px rgba(107,74,61,0.25);
+    position:relative;
+    border:2px dashed var(--blush);
+  }
+  .letter p{
+    font-size:16.5px; line-height:1.9; margin-bottom:16px; font-weight:500;
+  }
+  .letter .sign-off{
+    text-align:right; font-family:'Baloo 2'; font-size:20px; color:var(--coral-deep);
+    margin-top:20px; font-weight:700;
+  }
+  .letter-bunny{
+    width:64px; position:absolute; bottom:-30px; left:-20px;
+    transform:rotate(-8deg);
+  }
+ 
+  /* Reasons flip cards */
+  .reasons-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; margin-top:10px;
+  }
+  @media (max-width:520px){ .reasons-grid{ grid-template-columns:1fr; } }
+  .flip-card{
+    perspective:1200px; height:150px; cursor:pointer;
+  }
+  .flip-inner{
+    position:relative; width:100%; height:100%; transition:transform 0.65s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flip-card.flipped .flip-inner{ transform:rotateY(180deg); }
+  .flip-front, .flip-back{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius:18px; display:flex; align-items:center; justify-content:center;
+    padding:16px; font-weight:700; text-align:center;
+  }
+  .flip-front{
+    background:linear-gradient(150deg, var(--blush), #FFD3E0);
+    color:var(--coral-deep); font-family:'Baloo 2'; font-size:15px;
+    box-shadow:0 10px 22px -12px rgba(255,107,139,0.5);
+  }
+  .flip-back{
+    background:linear-gradient(150deg, var(--mint), #CFF6E4);
+    color:#2E7D5E; transform:rotateY(180deg); font-size:13.5px; line-height:1.5; font-weight:700;
+  }
+ 
+  /* Gallery */
+  .gallery{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px;
+  }
+  @media (max-width:520px){ .gallery{ grid-template-columns:repeat(2,1fr); } }
+  .polaroid{
+    background:#fff; padding:10px 10px 26px; border-radius:6px;
+    box-shadow:0 12px 22px -12px rgba(107,74,61,0.35);
+    transform:rotate(var(--r,0deg));
+    transition:transform 0.3s ease;
+  }
+  .polaroid:hover{ transform:rotate(0deg) scale(1.05); z-index:5; }
+  .polaroid:nth-child(1){ --r:-6deg; }
+  .polaroid:nth-child(2){ --r:4deg; }
+  .polaroid:nth-child(3){ --r:-3deg; }
+  .polaroid:nth-child(4){ --r:5deg; }
+  .polaroid:nth-child(5){ --r:-4deg; }
+  .polaroid:nth-child(6){ --r:3deg; }
+  .polaroid .frame{
+    aspect-ratio:1/1; border-radius:3px; display:flex; align-items:center; justify-content:center;
+    font-size:26px; background:linear-gradient(135deg, var(--blush), var(--lavender));
+  }
+  .polaroid .cap{
+    display:block; text-align:center; margin-top:8px; font-size:11px; color:var(--choco-soft); font-weight:700;
+  }
+  .gallery-note{
+    margin-top:18px; font-size:12.5px; color:var(--choco-soft); font-weight:600;
+  }
+ 
+  /* Wish / candle */
+  .candle-card{
+    background:linear-gradient(160deg, #3A2A3F, #241925);
+    border-radius:26px; padding:56px 30px 44px; color:#fff; position:relative; overflow:hidden;
+  }
+  .candle-card .sec-tag{ color:var(--gold); }
+  .candle-card .sec-title{ color:#fff; }
+  .cake-wrap{ display:flex; justify-content:center; margin:20px 0 26px; }
+  .cake{ width:150px; }
+  .flame{ transform-origin:50% 100%; animation:flicker 1.4s ease-in-out infinite; }
+  @keyframes flicker{
+    0%,100%{ transform:scaleY(1) scaleX(1); }
+    50%{ transform:scaleY(1.15) scaleX(0.92); }
+  }
+  .flame.out{ animation:none; opacity:0; }
+  #blow-btn{
+    font-family:'Baloo 2'; font-weight:700; font-size:15px; color:#241925;
+    background:var(--gold); border:none; padding:14px 32px; border-radius:999px; cursor:pointer;
+    box-shadow:0 10px 22px -8px rgba(255,209,102,0.6);
+    transition:transform 0.2s ease;
+  }
+  #blow-btn:hover{ transform:translateY(-2px); }
+  .wish-msg{
+    margin-top:20px; font-size:14px; color:var(--gold); font-weight:700; min-height:20px;
+  }
+ 
+  /* Footer */
+  footer{
+    text-align:center; padding:70px 20px 90px; color:var(--choco-soft);
+  }
+  footer .foot-bunny{ width:70px; margin-bottom:14px; }
+  footer .foot-line{ font-family:'Baloo 2'; font-size:16px; color:var(--coral-deep); font-weight:700; }
+  footer .foot-sub{ font-size:12.5px; margin-top:6px; }
+ 
+  /* Floating balloons finale */
+  .finale-balloon{
+    position:fixed; bottom:-100px; width:46px; z-index:80; pointer-events:none;
+    animation:rise 5.5s ease-in forwards;
+  }
+  @keyframes rise{
+    to{ transform:translateY(-115vh) rotate(12deg); opacity:0; }
+  }
+</style>
+</head>
+<body>
+ 
+<!-- ================= COVER ================= -->
+<div id="cover">
+  <div class="cover-hearts" id="cover-hearts"></div>
+  <!-- ⭐ ใส่รูป Usagi ของคุณตรงนี้: เปลี่ยน src="usagi.png" เป็นไฟล์รูปของคุณ -->
+  <img class="cover-bunny" src="usagi-is-so-misunderstood-v0-j4dguhnf5rte1.png" alt="กระต่ายน้อย"
+       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+  <div class="bunny-fallback" style="display:none;">🐰</div>
+  <div class="cover-title">มีเซอร์ไพรส์รออยู่นะ 🎀</div>
+  <div class="cover-sub">แตะเพื่อเปิดของขวัญวันเกิด</div>
+  <button id="open-btn">YaHaaa 🎁</button>
+</div>
+ 
+<canvas id="confetti-canvas"></canvas>
+
+<audio id="bgMusic" loop>
+ <source src="สารพนยะกลอนแฮปปเบรดเดย (1).mp3" type="audio/mpeg">
+</audio>
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <div class="eyebrow">🎉 วันนี้วันพิเศษของเธอ 🎉</div>
+  <h1 class="hero-title">สุขสันต์วันเกิดนะ<br><span class="name">ยัยบ๊อง</span> 🐰💗</h1>
+  <p class="hero-sub">วันนี้เป็นวันที่โลกได้คนน่ารักที่สุดมาเกิด</p>
+  <div class="hero-bunny-wrap">
+    <svg class="balloon" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="30" cy="30" rx="28" ry="30" fill="#FFB3C6"/>
+      <path d="M30 60 L26 70 L34 70 Z" fill="#FFB3C6"/>
+      <ellipse cx="20" cy="20" rx="7" ry="9" fill="#fff" opacity="0.35"/>
+    </svg>
+    <!-- ⭐ ใส่รูป Usagi ของคุณตรงนี้: เปลี่ยน src="usagi.png" เป็นไฟล์รูปของคุณ -->
+    <img class="hero-bunny" src="images (13).jpg" alt="กระต่ายน้อย"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <div class="bunny-fallback" style="display:none;">🐰</div>
+  </div>
+  <div class="scroll-hint">เลื่อนอ่านต่อ <span class="arrow">↓</span></div>
+</section>
+ 
+<!-- ================= LETTER ================= -->
+<section id="letter">
+  <div class="sec-tag">จดหมายลับ</div>
+  <h2 class="sec-title">ข้อความจากใจ 💌</h2>
+  <div class="letter">
+    <p>สุขสันต์วันเกิดนะยัยบ๊อง 🎂 ขอบคุณที่เกิดมาเป็นคนน่ารักแบบนี้ และขอบคุณที่ให้เราได้เป็นส่วนหนึ่งในชีวิตของคุณ(หรือเราเข้าไปเองก็ไม่รู้5555)</p>
+    <p>รู้จักกันได้ไม่นานแต่รู้สึกที่ผ่านมามีเรื่องราวมากมายที่เราผ่านมาด้วยกัน ทั้งเรื่องขำๆ เรื่องเหนื่อยๆ แต่ทุกวันที่มีคุณ เราก็ยิ้มได้เสมอ ถ้ามีคนที่ผิดหวังในตัวคุณ เราจะเป็นคนที่ชอบและประทับใจในตัวคุณเสมอนะ</p>
+    <p>ขอให้วันนี้เป็นวันที่คุณยิ้มได้ทั้งวัน ขอให้ปีนี้คุณได้ทุกอย่างที่ตั้งใจไว้ และขอให้เราได้อยู่ข้างๆ คุณในทุกวันเกิดต่อจากนี้นะ UNA🐰🤍</p>
+    <div class="sign-off">ชอบเธอมากๆ(ก 67 ล้านตัว 67 67),By [หมาป่าเดียวดาย]</div>
+  </div>
+</section>
+ 
+<!-- ================= REASONS ================= -->
+<section id="reasons">
+  <div class="sec-tag">แตะการ์ดเพื่อเปิดอ่าน</div>
+  <h2 class="sec-title">เหตุผลที่ชอบเธอ UNA🐰🤍</h2>
+  <div class="reasons-grid">
+    <div class="flip-card"><div class="flip-inner">
+      <div class="flip-front">เสียงกรนของเธอ 😊</div>
+      <div class="flip-back">ทำให้ยิ้มได้ทุกครั้ง</div>
+    </div></div>
+    <div class="flip-card"><div class="flip-inner">
+      <div class="flip-front">ความใจดีของเธอ 🌷</div>
+      <div class="flip-back">ที่มีให้ทุกคนรอบตัว น้องๆ รวมถึงเราด้วย</div>
+    </div></div>
+    <div class="flip-card"><div class="flip-inner">
+      <div class="flip-front">เวลาที่เธอหัวเราะ 🤣</div>
+      <div class="flip-back">เสียงหัวเราะของคุณทำให้เราสบายใจทุกครั้ง</div>
+    </div></div>
+    <div class="flip-card"><div class="flip-inner">
+      <div class="flip-front">ความมึนของเธอ 👻</div>
+      <div class="flip-back">ทำให้เราคอยเป็นห่วงตลอด</div>
+    </div></div>
+    <div class="flip-card"><div class="flip-inner">
+      <div class="flip-front">การกอดของเธอ 🤗</div>
+      <div class="flip-back">แค่ได้ยินก็รู้สึกสบายใจแล้ว อยู่ให้กอดไปนานๆนะ</div>
+    </div></div>
+    <div class="flip-card"><div class="flip-inner">
+      <div class="flip-front">การเป็นตัวเธอเอง 🐰</div>
+      <div class="flip-back">แค่คุณเป็นตัวของตัวเอง ก็ชอบหมดอยู่แล้ว UNA🐰🤍</div>
+    </div></div>
+  </div>
+</section>
+ 
+<!-- ================= WISH / CANDLE ================= -->
+<section id="wish">
+  <div class="candle-card">
+    <div class="sec-tag">ปิดท้าย</div>
+    <h2 class="sec-title">อธิษฐานวันเกิดกันนะ 🕯️</h2>
+    <div class="cake-wrap">
+      <svg class="cake" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <g id="flame-group">
+          <ellipse class="flame" cx="80" cy="30" rx="6" ry="12" fill="#FFD166"/>
+          <ellipse cx="80" cy="34" rx="3" ry="6" fill="#FF8FA3"/>
+        </g>
+        <rect x="77" y="40" width="6" height="16" fill="#F4E3C1"/>
+        <rect x="35" y="56" width="90" height="34" rx="6" fill="#FFB3C6"/>
+        <rect x="35" y="90" width="90" height="34" rx="6" fill="#FFDDE6"/>
+        <rect x="35" y="124" width="90" height="20" rx="6" fill="#FFF0F4"/>
+        <circle cx="55" cy="70" r="4" fill="#fff"/>
+        <circle cx="80" cy="76" r="4" fill="#fff"/>
+        <circle cx="105" cy="70" r="4" fill="#fff"/>
+      </svg>
+    </div>
+    <button id="blow-btn">เป่าเทียนอธิษฐาน 💨</button>
+    <div class="wish-msg" id="wish-msg"></div>
+  </div>
+</section>
+ 
+<footer>
+  <!-- ⭐ ใส่รูป Usagi ของคุณตรงนี้: เปลี่ยน src="usagi.png" เป็นไฟล์รูปของคุณ -->
+  <img class="foot-bunny" src="main.png" alt="กระต่ายน้อย"
+       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+  <div class="bunny-fallback" style="display:none;">🐰</div>
+  <div class="foot-line">ชอบเธอที่สุดในโลกเลยนะ 🐰🤍</div>
+  <div class="foot-sub">made with love by [หมาป่าเดียวดาย อีโก้อิส กองหน้าอันดับ 1 ของโลก]</div>
+</footer>
+ 
+<script>
+  // ---- Open cover ----
+  const cover = document.getElementById('cover');
+  const openBtn = document.getElementById('open-btn');
+  const confettiCanvas = document.getElementById('confetti-canvas');
+  const ctx = confettiCanvas.getContext('2d');
+  let confettiPieces = [];
+ 
+  function resizeCanvas(){
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+ 
+  function spawnConfetti(count){
+    const colors = ['#FF8FA3','#FFD166','#CBB8FF','#AEEBD3','#FF6B8B'];
+    for(let i=0;i<count;i++){
+      confettiPieces.push({
+        x: Math.random()*confettiCanvas.width,
+        y: -20 - Math.random()*200,
+        w: 6+Math.random()*6,
+        h: 8+Math.random()*8,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        speedY: 2+Math.random()*3,
+        speedX: -1.5+Math.random()*3,
+        rot: Math.random()*360,
+        rotSpeed: -6+Math.random()*12
+      });
+    }
+  }
+ 
+  function animateConfetti(){
+    ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
+    confettiPieces.forEach(p=>{
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.rot += p.rotSpeed;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    confettiPieces = confettiPieces.filter(p => p.y < confettiCanvas.height + 40);
+    requestAnimationFrame(animateConfetti);
+  }
+  animateConfetti();
+ 
+  // floating hearts on cover
+  const heartsWrap = document.getElementById('cover-hearts');
+  for(let i=0;i<10;i++){
+    const h = document.createElement('span');
+    h.textContent = ['💗','🌸','✨','🎀'][i%4];
+    h.style.left = (Math.random()*90+5)+'%';
+    h.style.bottom = '-40px';
+    h.style.animationDelay = (Math.random()*6)+'s';
+    heartsWrap.appendChild(h);
+  }
+ 
+  openBtn.addEventListener('click', ()=>{
+    spawnConfetti(140);
+    cover.classList.add('opened');
+    setTimeout(()=>{ cover.style.display='none'; }, 950);
+  });
+ 
+  // ---- Flip cards ----
+  document.querySelectorAll('.flip-card').forEach(card=>{
+    card.addEventListener('click', ()=> card.classList.toggle('flipped'));
+  });
+ 
+  // ---- Blow candle ----
+  const blowBtn = document.getElementById('blow-btn');
+  const flame = document.querySelector('.flame');
+  const wishMsg = document.getElementById('wish-msg');
+  let blown = false;
+  blowBtn.addEventListener('click', ()=>{
+    if(blown) return;
+    blown = true;
+    flame.classList.add('out');
+    wishMsg.textContent = 'ขอให้คำอธิษฐานเป็นจริงนะ 🌟 สุขสันต์วันเกิดอีกครั้งนะครับ';
+    spawnConfetti(200);
+    launchBalloons();
+  });
+ 
+  function launchBalloons(){
+    const colors = ['#FF8FA3','#FFD166','#CBB8FF','#AEEBD3'];
+    for(let i=0;i<10;i++){
+      setTimeout(()=>{
+        const b = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        b.setAttribute('viewBox','0 0 60 80');
+        b.classList.add('finale-balloon');
+        b.style.left = (Math.random()*90+3)+'%';
+        b.style.animationDuration = (4.5+Math.random()*2)+'s';
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        b.innerHTML = `<ellipse cx="30" cy="30" rx="28" ry="30" fill="${color}"/><path d="M30 60 L26 70 L34 70 Z" fill="${color}"/>`;
+        document.body.appendChild(b);
+        setTimeout(()=> b.remove(), 6500);
+      }, i*180);
+    }
+  }
+</script>
+</body>
+</html>
